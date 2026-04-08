@@ -92,8 +92,6 @@ public class ProductoService {
     }
 
     public String validarEditar(String codigo, String nombre, String precio, String stock, String categoria) throws IOException {
-        Boolean codigorepetido = file.BuscarCodigo(codigo);
-        if (codigorepetido) {return "El codigo esta repetido";}
         if (codigo == null || codigo.isBlank()) {
             return "El codigo esta vacio";
         }

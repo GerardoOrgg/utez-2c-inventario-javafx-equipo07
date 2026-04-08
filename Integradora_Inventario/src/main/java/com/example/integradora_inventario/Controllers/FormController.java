@@ -70,6 +70,7 @@ public class FormController {
 
     public void datosEditar(Producto itemSeleccionado) {
         txtCodigo.setText(itemSeleccionado.getCodigo());
+        txtCodigo.setDisable(true);
         txtNombre.setText(itemSeleccionado.getNombre());
         txtPrecio.setText(String.valueOf(itemSeleccionado.getPrecio()));
         txtStock.setText(String.valueOf(itemSeleccionado.getStock()));
@@ -103,7 +104,6 @@ public class FormController {
         Alert alerta = new Alert(tipo);
         alerta.setTitle(titulo);
         alerta.setHeaderText(encabezado);
-        alerta.showAndWait();
         Optional<ButtonType> resultado = alerta.showAndWait();
 
         return resultado ;

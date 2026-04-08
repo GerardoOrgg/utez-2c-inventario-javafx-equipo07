@@ -75,7 +75,7 @@ public class MainController {
     @FXML
     public void nuevo() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/integradora/views/formview.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/integradora_inventario/views/formview.fxml"));
             Parent root = loader.load();
             Stage stage = new Stage();
             stage.setTitle("Nuevo Producto");
@@ -89,7 +89,7 @@ public class MainController {
 
     public void editar() throws IOException {
         if (itemSeleccionado != null) {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/integradora/views/editarProducto.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/integradora_inventario/views/editarProducto.fxml"));
             Parent root = loader.load();
             FormController form = loader.getController();
             form.datosEditar(itemSeleccionado);
@@ -130,8 +130,12 @@ public class MainController {
         alerta.setTitle(titulo);
         alerta.setHeaderText(encabezado);
         alerta.setContentText(contenido);
-        Optional<ButtonType> resultado = alerta.showAndWait();
 
-        return resultado ;
+
+        if (tablaProductos.getScene() != null && tablaProductos.getScene().getWindow() != null) {
+            alerta.initOwner(tablaProductos.getScene().getWindow());
+        }
+
+        return alerta.showAndWait();
     }
 }
