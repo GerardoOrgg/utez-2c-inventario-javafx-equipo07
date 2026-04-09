@@ -90,6 +90,40 @@ public class ProductoService {
         return "Producto agregado";
 
     }
+    public String ValidarEditarTrue(String codigo, String nombre, String precio, String stock, String categoria) throws IOException {
+        Boolean codigorepetido = file.BuscarCodigo(codigo);
+        if (codigorepetido) {return "El codigo esta repetido";}
+        if (codigo == null || codigo.isBlank()) {
+            return "El codigo esta vacio";
+        }
+        if (nombre == null || nombre.isBlank()) {
+            return "El nombre esta vacio";
+        }
+        if (nombre.length() < 3) {
+            return "El nombre es muy corto";
+        }
+        if (precio.isBlank()) {
+            return "El precio esta vacio";
+        }
+        if (stock.isBlank()) {
+            return "El stock esta vacio";
+        }
+        if (categoria == null || categoria.isBlank()) {
+            return "La categoria esta vacio";
+        }
+        try {
+            double preVal = Double.parseDouble(precio);
+            int stockVal = Integer.parseInt(stock);
+
+            if (preVal < 0) return "El precio no puede ser menor a 0";
+            if (stockVal < 0) return "El stock no puede ser menor a 0";
+
+        } catch (NumberFormatException e) {
+            return "El precio o stock deben ser valores numéricos";
+        }
+        return "Producto editado Correctamente";
+    }
+
 
     public String validarEditar(String codigo, String nombre, String precio, String stock, String categoria) throws IOException {
         if (codigo == null || codigo.isBlank()) {
@@ -122,4 +156,20 @@ public class ProductoService {
         }
         return "Producto Editado Correctamente";
     }
+
+    public void editarProductoTrue(String idViejo, String idNuevo, String nombre, String precio, String stock, String categoria) throws IOException {
+        List<String> lineas = file.readAllLines();
+        List<String> nuevaLista = new ArrayList<>();
+        for (String linea : lineas) {
+            String[] partes = linea.split("-");
+
+            if (partes[0].equals(idViejo)) {
+                nuevaLista.add(idNuevo + "-" + nombre + "-" + precio + "-" + stock + "-" + categoria);
+            } else {
+                nuevaLista.add(linea);
+            }
+        }
+        file.saveFile(nuevaLista);
+    }
+
 }

@@ -15,12 +15,12 @@ import java.util.Optional;
 public class FormController {
 
     ProductoService service = new ProductoService();
-
     @FXML private TextField txtCodigo;
     @FXML private TextField txtNombre;
     @FXML private TextField txtPrecio;
     @FXML private TextField txtStock;
     @FXML private ComboBox<String> txtcategoria;
+    private String CodigoOriginal;
 
     @FXML
     private void initialize(){
@@ -69,6 +69,8 @@ public class FormController {
 
 
     public void datosEditar(Producto itemSeleccionado) {
+
+        CodigoOriginal =itemSeleccionado.getCodigo();
         txtCodigo.setText(itemSeleccionado.getCodigo());
         txtCodigo.setDisable(true);
         txtNombre.setText(itemSeleccionado.getNombre());
@@ -79,26 +81,49 @@ public class FormController {
 
     public void editarBtn(){
         try {
+
             String codigo = txtCodigo.getText();
             String nombre = txtNombre.getText();
             String precioTxt = txtPrecio.getText();
             String stockTxt = txtStock.getText();
             String categoria = txtcategoria.getValue();
-            String msj = service.validarEditar(codigo,nombre,precioTxt,stockTxt,categoria);
-            if (msj.equals("Producto Editado Correctamente")){
-                service.editarProducto(codigo,nombre,precioTxt,stockTxt,categoria);
-                mostrarAlerta("Exito",msj, Alert.AlertType.INFORMATION);
-                Stage stage = (Stage) txtCodigo.getScene().getWindow();
-                stage.close();
-                return;
-            }
-            mostrarAlerta("Error",msj, Alert.AlertType.ERROR);
+
+           if (codigo.equals(CodigoOriginal)){
+               String msj = service.validarEditar(codigo,nombre,precioTxt,stockTxt,categoria);
+               if (msj.equals("Producto Editado Correctamente")){
+                   service.editarProducto(CodigoOriginal,nombre,precioTxt,stockTxt,categoria);
+                   mostrarAlerta("Exito",msj, Alert.AlertType.INFORMATION);
+                   Stage stage = (Stage) txtCodigo.getScene().getWindow();
+                   stage.close();
+                   return;
+               }
+               mostrarAlerta("Error",msj, Alert.AlertType.ERROR);
+
+           } else {
+               String msj = service.ValidarEditarTrue(codigo,nombre,precioTxt,stockTxt,categoria);
+               if (msj.equals("Producto editado Correctamente")){
+                   System.out.println(codigo);
+                   service.editarProductoTrue(CodigoOriginal,codigo,nombre,precioTxt,stockTxt,categoria);
+                   mostrarAlerta("Exito",msj, Alert.AlertType.INFORMATION);
+                   Stage stage = (Stage) txtCodigo.getScene().getWindow();
+                   stage.close();
+                   return;
+               }
+               mostrarAlerta("Error",msj, Alert.AlertType.ERROR);
+           }
+
 
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
     }
+
+
+    public void editarCode(){
+        txtCodigo.setDisable(false);
+    }
+
 
     private  Optional<ButtonType> mostrarAlerta(String titulo, String encabezado, Alert.AlertType tipo) {
         Alert alerta = new Alert(tipo);
