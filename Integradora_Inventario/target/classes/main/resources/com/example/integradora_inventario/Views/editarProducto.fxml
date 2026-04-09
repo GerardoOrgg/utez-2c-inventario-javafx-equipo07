@@ -92,6 +92,8 @@
                             style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="CANCELAR" />
                     <Button onAction="#editarBtn" prefHeight="35.0" prefWidth="120.0"
                             style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="CONFIRMAR" />
+                    <Button onAction="#editarCode" prefHeight="35.0" prefWidth="120.0"
+                            style="-fx-background-color: #5098jj; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="EDITAR ID" />
                 </children>
             </HBox>
         </children>
